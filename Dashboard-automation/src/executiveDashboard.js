@@ -343,7 +343,29 @@ function getMappedCellValue(sheet, address) {
   };
 }
 
-function resolveMappedReference(sheet, mapping, section) {
+function chartGroupLabel(field) {
+  const normalized = normalizeLabel(field);
+  if (normalized.startsWith('budgeted')) return 'Budget';
+  if (normalized.startsWith('expected')) return 'Expected';
+  if (normalized.startsWith('actual')) return 'Actual';
+  return null;
+}
+
+function chartComponentLabel(label) {
+  const normalized = normalizeLabel(label).replace(/[^a-z0-9]/g, '');
+  const labels = {
+    pvsystep: 'Ep',
+    ep: 'Ep',
+    dl: 'DL',
+    pa: 'PA',
+    ga: 'GA',
+    rl: 'RL',
+    ex: 'EX',
+  };
+  return labels[normalized] || null;
+}
+
+function resolveMappedReference(sheet, mapping, section, field) {
   if (!mapping) return { ok: false, skip: true, note: 'No comparison cell mapping in the reference sheet.' };
   const isChart = normalizeLabel(section) === 'chart';
   if (!isChart) {
@@ -355,17 +377,31 @@ function resolveMappedReference(sheet, mapping, section) {
 
   const entries = [...mapping.matchAll(/([^:;]+):\s*(\$?[A-Z]{1,3}\$?\d+)/gi)];
   if (!entries.length) return { ok: false, note: `No chart cell addresses found in reference mapping "${mapping}".` };
-  const values = [];
+  const group = chartGroupLabel(field);
+  if (!group) return { ok: false, note: `Unsupported chart field "${field}". Expected Budgeted, Expected, or Actual.` };
+  const resolved = new Map();
   for (const [, label, address] of entries) {
+    const component = chartComponentLabel(label);
+    if (!component) return { ok: false, note: `Unsupported chart component "${label.trim()}" in reference mapping.` };
+    if (resolved.has(component)) return { ok: false, note: `Duplicate chart component "${component}" in reference mapping.` };
     const result = getMappedCellValue(sheet, address);
     if (!result.ok) return { ...result, note: `${label.trim()}: ${result.note}` };
-    values.push({ label: label.trim(), ...result });
+    resolved.set(component, result);
   }
+  const components = ['Ep', 'DL', 'PA', 'GA', 'RL', 'EX'];
+  const missing = components.filter((component) => !resolved.has(component));
+  if (missing.length) return { ok: false, note: `Chart mapping is missing components: ${missing.join(', ')}.` };
+  const values = components.map((component) => ({
+    component,
+    ...resolved.get(component),
+  }));
   return {
     ok: true,
     ref: values.map((entry) => entry.ref).join('; '),
-    raw: values.map((entry) => `${entry.label}: ${entry.raw}`).join('\n'),
-    text: `Expected:${values.map((entry) => `${entry.label}: ${entry.value}`).join('\n')}`,
+    raw: values.map((entry) => `${entry.component}: ${entry.raw}`).join('\n'),
+    text: values.map((entry, index) => (
+      `${group} ${entry.component} (GWh):${index === 0 ? ' ' : ''}Expected:${entry.value}`
+    )).join('\n'),
   };
 }
 
@@ -497,7 +533,7 @@ async function generateExecutive({ dgrFile, template, comparison, rules, dates, 
       if (source || referenceMapping.found || useComparison) output.getCell(`G${rowNumber}`).value = null;
       const result = useComparison
         ? referenceMapping.found && referenceMapping.mapping
-          ? resolveMappedReference(comparisonSheet, referenceMapping.mapping, subModule)
+          ? resolveMappedReference(comparisonSheet, referenceMapping.mapping, subModule, field)
           : { ok: false, note: `No comparison cell mapping found for ${subModule} / ${field} in the Executive reference sheet.` }
         : resolveSource(workbookData, source, iso, plantName);
       if (result.ok) {
