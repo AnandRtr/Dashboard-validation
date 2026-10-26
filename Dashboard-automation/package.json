@@ -1,0 +1,22 @@
+{
+  "name": "validation-dashboard-automation",
+  "version": "1.0.0",
+  "description": "Generates the validation sheet (Expected values) for a site + date from the DGR workbook",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "cli": "node index.js",
+    "help": "node index.js --help",
+    "record:dashboard": "playwright codegen --target=playwright-test --output=tests/dashboard.spec.js --load-storage=auth.json --save-storage=auth.json https://dxt-azure-dev.netlify.app/dashboard"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "multer": "^2.4.0",
+    "playwright": "^1.63.0",
+    "xlsx": "^0.18.5"
+  }
+}

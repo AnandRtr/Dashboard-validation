@@ -1,0 +1,22 @@
+{
+  "_readme": "Maps 'Sub Module|Field Name' to the label text shown on the dashboard. 'decimals' = how many decimals the app shows for that field.",
+  "Performance KPI|Energy Export":        { "label": "Energy Export",     "decimals": 2 },
+  "Performance KPI|Energy Import":        { "label": "Energy Import",     "decimals": 2 },
+  "Performance KPI|Net Generation":       { "label": "Net Generation",    "decimals": 2 },
+  "Performance KPI|Total Inv Generation": { "label": "Total Inv Generation", "decimals": 2 },
+  "Performance KPI|Active Power":         { "label": "Active Power",      "decimals": 2 },
+  "Performance KPI|Peak Power":           { "label": "Peak Power",        "decimals": 2 },
+  "Performance KPI|PR":                   { "label": "PR",                "decimals": 2 },
+  "Performance KPI|PLF":                  { "label": "PLF",               "decimals": 2 },
+  "Weather|GHI":                { "label": "GHI",                "decimals": 2 },
+  "Weather|GTI":                { "label": "GTI",                "decimals": 2 },
+  "Weather|Ambient Temperature":{ "label": "Ambient Temperature","decimals": 2 },
+  "Weather|Module Temperature": { "label": "Module Temperature", "decimals": 2 },
+  "Weather|Wind Speed":         { "label": "Wind Speed",         "decimals": 2 },
+  "Weather|CO₂ Reduction":      { "label": "CO", "labelRegex": "CO.?\\s*Reduction", "decimals": 2 },
+  "Weather|Tree Saved":         { "label": "Tree Saved",         "decimals": 2 },
+  "Energy Generation|Budget EP":     { "label": "Budget Ep",     "decimals": 2, "chart": true },
+  "Energy Generation|Actual EP":     { "label": "Actual Ep",     "decimals": 2, "chart": true },
+  "Energy Generation|Energy Budget": { "label": "Budget Energy", "decimals": 2, "chart": true },
+  "Energy Generation|Energy Actual": { "label": "Actual Energy", "decimals": 2, "chart": true }
+}

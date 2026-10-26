@@ -1,0 +1,136 @@
+{
+  "_readme": "Rules that tell the tool HOW to read + format each validation row. Row -> rule matching is done by 'Sub Module|Field Name' (text in column A / B of the validation sheet), never by row number, so the template can grow/shrink. The SOURCE of the value comes from the template's 'Comments' column (E) e.g. Exec_DGR_AM => EXECUTIVE_DGR sheet, column AM. Use 'source' in a rule only when the template has no comment for that row.",
+  "sheetAliases": {
+    "exec_dgr": {
+      "sheet": "EXECUTIVE_DGR",
+      "dateCol": "J"
+    },
+    "executive_dgr": {
+      "sheet": "EXECUTIVE_DGR",
+      "dateCol": "J"
+    },
+    "dgr": {
+      "sheet": "DGR",
+      "dateCol": "J"
+    },
+    "weather": {
+      "sheet": "Weather",
+      "dateCol": "B"
+    }
+  },
+  "plantNameColumn": {
+    "EXECUTIVE_DGR": "A",
+    "DGR": "A",
+    "DIGITAL_TWIN_ANALYSIS": "A"
+  },
+  "defaults": {
+    "prefix": true
+  },
+  "fields": {
+    "Performance KPI|Energy Export": {},
+    "Performance KPI|Energy Import": {},
+    "Performance KPI|Total Inv Generation": {},
+    "Performance KPI|PR": {},
+    "Performance KPI|PLF": {},
+    "Performance KPI|Active Power": {
+      "special": "acLastActive"
+    },
+    "Performance KPI|Peak Power": {},
+    "Performance KPI|Net Generation": {},
+    "Energy Generation|Budget EP": {},
+    "Energy Generation|Actual EP": {},
+    "Energy Generation|Energy Budget": {},
+    "Energy Generation|Energy Actual": {},
+    "Weather|GHI": {},
+    "Weather|GTI": {},
+    "Weather|Ambient Temperature": {},
+    "Weather|Module Temperature": {},
+    "Weather|Wind Speed": {},
+    "Weather|CO₂ Reduction": {},
+    "Weather|Tree Saved": {},
+    "Energy Generation Performance|Budget EP": {},
+    "Energy Generation Performance|Actual EP": {},
+    "Energy Generation Performance|Budget Insolation": {},
+    "Energy Generation Performance|Actual Insolation": {},
+    "Energy Generation Performance|Deviation in EP": {},
+    "Energy Generation Performance|Deviation in Insolation": {},
+    "Active Power Vs GTI Irradiance|Active Power": {
+      "special": "acLastActive"
+    },
+    "Active Power Vs GTI Irradiance|GTI Irradiance": {
+      "special": "gtiLastGt5"
+    },
+    "Active Power Vs GTI Irradiance|Expected Power": {
+      "special": "expectedPowerLastGt5"
+    },
+    "Active Power Vs GTI Irradiance|Peak Power": {
+      "source": {
+        "sheet": "Weather",
+        "col": "AX"
+      }
+    },
+    "Active Power Vs GTI Irradiance|Peak GTI": {
+      "special": "peakGti"
+    }
+  },
+  "inverter": {
+    "sectionPattern": "^Inverter Reading \\((INV\\d+)\\)$",
+    "sheet": "Inverter_Wise",
+    "dateCol": "A",
+    "kpiCol": "B",
+    "firstInverterCol": "C",
+    "inactiveText": "Inverter Inactive",
+    "inactiveWhenKpi": "INV_GEN (MWh)",
+    "fields": {
+      "Energy Generated(MWh)": {
+        "kpi": "INV_GEN (MWh)",
+        "prefix": true
+      },
+      "Performance Ratio(%)": {
+        "kpi": "INV_PR (%)",
+        "prefix": true
+      },
+      "PLF(%)": {
+        "kpi": "INV_PLF (%)",
+        "prefix": true
+      },
+      "Yield(MWh/Mwp)": {
+        "kpi": "INV_YIELD (MWh / MWp)",
+        "prefix": true
+      },
+      "PA": {
+        "skip": "Not available in DGR workbook"
+      },
+      "GA": {
+        "skip": "Not available in DGR workbook"
+      },
+      "Status": {
+        "skip": "Not available in DGR workbook"
+      }
+    }
+  },
+  "specials": {
+    "acEnergy": {
+      "sheet": "AC_Energy",
+      "dateCol": "A",
+      "timeCol": "B",
+      "valueCol": "BA"
+    },
+    "expectedPower": {
+      "sheet": "Expected Power",
+      "dateCol": "A",
+      "timeCol": "B",
+      "gtiCol": "D",
+      "valueCol": "M"
+    },
+    "gtiThreshold": 5
+  },
+  "sites": {
+    "TG1.1": {
+      "plantName": "Telagana1.1"
+    },
+    "TG1.2": {
+      "plantName": "Telagana1.2"
+    }
+  }
+}

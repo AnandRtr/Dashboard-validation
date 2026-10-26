@@ -1,0 +1,34 @@
+{
+  "stations": {
+    "AP2.1": "67ffa1aabb79f55c5c3a60c8",
+    "Andhra Pradesh 2.1": "67ffa1aabb79f55c5c3a60c8"
+  },
+  "fields": {
+    "Weather|GHI": {
+      "path": "weather.ghi"
+    },
+    "Weather|GTI": {
+      "path": "weather.gti"
+    },
+    "Weather|Ambient Temperature": {
+      "path": "weather.ambient_temperature"
+    },
+    "Weather|Module Temperature": {
+      "path": "weather.module_temperature"
+    },
+    "Weather|Wind Speed": {
+      "path": "weather.wind_speed"
+    }
+  },
+  "inverter": {
+    "sheet_field_to_json_key": {
+      "Energy Generated(MWh)": "energy_generated",
+      "Performance Ratio(%)": "performance_ratio",
+      "PLF(%)": "plf",
+      "Yield(MWh/Mwp)": "yield",
+      "PA": "pa",
+      "GA": null,
+      "Status": null
+    }
+  }
+}

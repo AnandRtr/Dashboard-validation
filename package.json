@@ -1,0 +1,11 @@
+{
+  "name": "validation-dashboard-workspace",
+  "private": true,
+  "scripts": {
+    "install": "npm --prefix Dashboard-automation install",
+    "start": "npm --prefix Dashboard-automation start",
+    "cli": "npm --prefix Dashboard-automation run cli",
+    "help": "npm --prefix Dashboard-automation run help",
+    "record:dashboard": "npm --prefix Dashboard-automation run record:dashboard"
+  }
+}
